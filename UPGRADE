@@ -1,4 +1,4 @@
-         Upgrading Instructions for Yii Framework v1.1.13
+         Upgrading Instructions for Yii Framework v1.1.14
          ================================================
 
 !!!IMPORTANT!!!
@@ -16,6 +16,25 @@ General upgrade instructions
   release and update.
 - Check if everything is OK, if not — revert from backup and post
   issues to Yii issue tracker.
+
+Upgrading from v1.1.13
+----------------------
+
+- CActiveRecord::count() now respects group by and having. If your code relied
+  on ignoring it your application may break and should be updated.
+
+- Vendors: phlymail's Net_IDNA was replaced by PEAR Net_IDNA2. The latter library is better maintained than the former.
+  In case your code relies on bundled phlymail's Net_IDNA you should change it a bit. Old way of encoding IDNs:
+
+      require_once(Yii::getPathOfAlias('system.vendors.idna_convert').DIRECTORY_SEPARATOR.'idna_convert.class.php');
+      $idnaConvert=new idna_convert();
+      $result=$idnaConvert->encode($value);
+
+  New:
+
+      require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
+      $idna=new Net_IDNA2();
+      $result=$idna->encode($value);
 
 Upgrading from v1.1.12
 ----------------------
